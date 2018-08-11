@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.example.administrator.binheweather.db.City;
 import com.example.administrator.binheweather.db.County;
 import com.example.administrator.binheweather.db.Province;
+import com.example.administrator.binheweather.gson.weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,6 +78,17 @@ public class Utility {
             }
 
         }return false;
+    }
+    public static weather handleWeatherResponse(String response){
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,weather.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
